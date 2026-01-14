@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Lost Item | Lost & Found Campus</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Privacy Policy -->
+    <marquee class="privacy-marquee">
+      CONTACT DETAILS SHARED ARE USED STRICTLY FOR ITEM RECOVERY PURPOSES ONLY
+    </marquee>
+
+    <!-- Header -->
+    <header>
+      <h1>Post Lost Item</h1>
+      <p>Help the campus recover lost belongings</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="found.html">Post Found Item</a>
+      <a href="announcement.html">Announcements</a>
+    </nav>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+      ⚠ THIS PLATFORM ONLY CONNECTS USERS. VERIFICATION AND RECOVERY
+      RESPONSIBILITY LIES WITH INDIVIDUALS.
+    </div>
+
+    <!-- Form Container -->
+    <div class="container">
+      <!-- Image placeholders -->
+      <div class="image-slots">
+        <div class="image-box">Image Slot 1</div>
+        <div class="image-box">Image Slot 2</div>
+      </div>
+
+      <!-- Lost Item Form -->
+      <form action="#" method="post" enctype="multipart/form-data">
+        <label>Item Name</label>
+        <input type="text" placeholder="e.g. Black Wallet" required />
+
+        <label>Description</label>
+        <textarea
+          rows="3"
+          placeholder="Describe the item clearly"
+          required
+        ></textarea>
+
+        <label>Location Lost</label>
+        <input type="text" placeholder="e.g. Library, Hostel B" required />
+
+        <label>Date Lost</label>
+        <input type="date" required />
+
+        <label>Contact (Phone / WhatsApp)</label>
+        <input type="tel" placeholder="0712345678" required />
+
+        <label>Upload Images (Optional)</label>
+        <input type="file" accept="image/*" multiple />
+
+        <button type="submit">Submit Lost Item</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Found Item - Lost & Found Campus</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <h1>Post Found Item</h1>
+      <p>Help return lost items to their rightful owners</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="lost.html">Post Lost Item</a>
+      <a href="announcement.html">Announcements</a>
+    </nav>
+
+    <!-- Form Container -->
+    <div class="container">
+      <!-- Image placeholders -->
+      <div class="image-top">
+        <img src="placeholder1.png" alt="Found Item Image 1" />
+        <img src="placeholder2.png" alt="Found Item Image 2" />
+      </div>
+
+      <!-- Found Item Form -->
+      <form action="#" method="post" enctype="multipart/form-data">
+        <label for="itemName">Item Name:</label>
+        <input
+          type="text"
+          id="itemName"
+          name="itemName"
+          placeholder="e.g., Wallet"
+          required
+        />
+
+        <label for="locationFound">Location Found:</label>
+        <input
+          type="text"
+          id="locationFound"
+          name="locationFound"
+          placeholder="e.g., Library, Hostel B"
+          required
+        />
+
+        <label for="dateFound">Date Found:</label>
+        <input type="date" id="dateFound" name="dateFound" required />
+
+        <label for="description">Verification Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="3"
+          placeholder="Describe unique features to help verify ownership"
+          required
+        ></textarea>
+
+        <label for="contact">Contact (Phone / WhatsApp):</label>
+        <input
+          type="tel"
+          id="contact"
+          name="contact"
+          placeholder="e.g., 0712345678"
+          required
+        />
+
+        <label for="itemImages">Upload Images (optional):</label>
+        <input
+          type="file"
+          id="itemImages"
+          name="itemImages"
+          accept="image/*"
+          multiple
+        />
+
+        <button type="submit">Submit Found Item</button>
+      </form>
+    </div>
+  </body>
+</html>
