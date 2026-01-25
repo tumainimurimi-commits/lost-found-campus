@@ -1,86 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Post Found Item - Lost & Found Campus</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Found Item | Lost & Found Campus</title>
 
-  <body>
-    <!-- Header -->
-    <header>
-      <h1>Post Found Item</h1>
-      <p>Help return lost items to their rightful owners</p>
-    </header>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f6f8;
+}
 
-    <!-- Navigation -->
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="lost.html">Post Lost Item</a>
-      <a href="announcement.html">Announcements</a>
-    </nav>
+.disclaimer-marquee {
+  background-color: rgb(150, 32, 32);
+  color: white;
+  font-weight: bolder;
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
-    <!-- Form Container -->
-    <div class="container">
-      <!-- Image placeholders -->
-      <div class="image-top">
-        <img src="placeholder1.png" alt="Found Item Image 1" />
-        <img src="placeholder2.png" alt="Found Item Image 2" />
+.disclaimer-marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: move-text 15s linear infinite;
+}
+
+@keyframes move-text {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+header {
+  background-color: navy;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+header h1 { margin:0; font-size:28px; }
+header p { margin:5px 0 0 0; font-size:16px; }
+
+nav {
+  display:flex;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  background-color:navy;
+  padding:10px 20px;
+}
+
+nav a {
+  color:white;
+  text-decoration:none;
+  margin:0 10px;
+  font-weight:bold;
+  padding:8px 15px;
+  border-radius:5px;
+  background-color:green;
+}
+
+main {
+  max-width:800px;
+  margin:30px auto;
+  padding:0 15px;
+}
+
+.container {
+  background-color:white;
+  padding:25px;
+  border-radius:8px;
+  box-shadow:0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom:30px;
+}
+
+.image-slots {
+  display:flex;
+  justify-content:space-between;
+  flex-wrap: wrap;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.image-box {
+  width:49%;
+  min-height:100px;
+  border:2px dashed green;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+  border-radius:8px;
+  background-color:#f9f9f9;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+}
+
+.image-box img {
+  display:inline-block;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  border-radius:8px;
+}
+
+.remove-btn {
+  position:absolute;
+  top:5px;
+  right:5px;
+  background:red;
+  color:white;
+  border:none;
+  border-radius:50%;
+  width:20px;
+  height:20px;
+  cursor:pointer;
+  font-size:14px;
+  display:none;
+}
+
+.image-box.has-image .remove-btn { display:block; }
+
+form label {
+  display:block;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+form input, form textarea {
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:5px;
+  border:1px solid #ccc;
+  box-sizing:border-box;
+}
+
+form button {
+  margin-top:20px;
+  background-color:green;
+  color:white;
+  border:none;
+  padding:12px;
+  font-size:16px;
+  border-radius:5px;
+  cursor:pointer;
+  width:100%;
+}
+
+.posted-items {
+  margin-top:30px;
+}
+
+.posted-item {
+  background-color:white;
+  padding:15px;
+  margin-bottom:20px;
+  border-radius:8px;
+  box-shadow:0 3px 5px rgba(0,0,0,0.1);
+}
+
+.posted-item h3 { margin:0 0 5px 0; color:navy; }
+.posted-item p { margin:3px 0; }
+
+.posted-item .images-row {
+  display:flex;
+  flex-wrap: wrap;
+  gap:10px;
+  margin-top:10px;
+}
+
+.posted-item .images-row img {
+  max-width:150px;
+  max-height:150px;
+  object-fit:contain;
+  border-radius:5px;
+  border:2px solid #ccc;
+}
+
+/* RESPONSIVE */
+@media(max-width:480px){
+  header h1{ font-size:22px; }
+  header p{ font-size:14px; }
+  nav a{ padding:6px 10px; margin:5px 0; }
+  .posted-item .images-row img{ max-width:100px; max-height:100px; }
+  .image-box{ width:100%; min-height:80px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="disclaimer-marquee">
+  <span>⚠ CONTACT DETAILS SHARED ARE STRICTLY FOR ITEM RETURN PURPOSES ONLY ⚠</span>
+</div>
+
+<header>
+  <h1>Post Found Item</h1>
+  <p>Help return lost items to owners</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="lost.html">Post Lost Item</a>
+  <a href="announcement.html">Announcements</a>
+</nav>
+
+<main>
+  <article class="container">
+
+    <!-- IMAGE SLOTS -->
+    <div class="image-slots">
+      <div class="image-box" id="slot1">
+        Image Slot 1
+        <button type="button" class="remove-btn" onclick="removeImage(0)">×</button>
       </div>
-
-      <!-- Found Item Form -->
-      <form action="#" method="post" enctype="multipart/form-data">
-        <label for="itemName">Item Name:</label>
-        <input
-          type="text"
-          id="itemName"
-          name="itemName"
-          placeholder="e.g., Wallet"
-          required
-        />
-
-        <label for="locationFound">Location Found:</label>
-        <input
-          type="text"
-          id="locationFound"
-          name="locationFound"
-          placeholder="e.g., Library, Hostel B"
-          required
-        />
-
-        <label for="dateFound">Date Found:</label>
-        <input type="date" id="dateFound" name="dateFound" required />
-
-        <label for="description">Verification Description:</label>
-        <textarea
-          id="description"
-          name="description"
-          rows="3"
-          placeholder="Describe unique features to help verify ownership"
-          required
-        ></textarea>
-
-        <label for="contact">Contact (Phone / WhatsApp):</label>
-        <input
-          type="tel"
-          id="contact"
-          name="contact"
-          placeholder="e.g., 0712345678"
-          required
-        />
-
-        <label for="itemImages">Upload Images (optional):</label>
-        <input
-          type="file"
-          id="itemImages"
-          name="itemImages"
-          accept="image/*"
-          multiple
-        />
-
-        <button type="submit">Submit Found Item</button>
-      </form>
+      <div class="image-box" id="slot2">
+        Image Slot 2
+        <button type="button" class="remove-btn" onclick="removeImage(1)">×</button>
+      </div>
     </div>
-  </body>
+
+    <!-- FORM -->
+    <form id="found-form" onsubmit="submitFoundItem(event)" enctype="multipart/form-data">
+      <label for="item-name">Item Name</label>
+      <input id="item-name" required placeholder="e.g. Black Wallet">
+
+      <label for="description">Description</label>
+      <textarea id="description" rows="3" placeholder="Describe the item" required></textarea>
+
+      <label for="location-found">Location Found</label>
+      <input id="location-found" required placeholder="e.g. Library, Hostel B">
+
+      <label for="date-found">Date Found</label>
+      <input type="date" id="date-found" required>
+
+      <label for="contact">Contact</label>
+      <input id="contact" required placeholder="0712345678">
+
+      <label for="item-images">Upload Images (2 max)</label>
+      <input type="file" id="item-images" accept="image/*" multiple>
+
+      <button type="submit">Submit Found Item</button>
+
+      <!-- CLEAR ALL BUTTON -->
+      <button type="button" onclick="clearAllFoundItems()" 
+        style="margin-top:10px;background:red;color:white;padding:10px;border:none;border-radius:5px;cursor:pointer;">
+        Clear All Found Items
+      </button>
+    </form>
+  </article>
+
+  <!-- POSTED ITEMS -->
+  <div class="posted-items" id="posted-items"></div>
+
+</main>
+
+<script>
+let uploadedImages = [];
+
+// IMAGE UPLOAD HANDLER
+document.getElementById("item-images").addEventListener("change", function(e){
+  const files = Array.from(e.target.files);
+  if(files.length + uploadedImages.length > 2){ alert("Maximum 2 images allowed"); return; }
+
+  files.forEach((file)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      uploadedImages.push(reader.result);
+      updateSlots();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value="";
+});
+
+// UPDATE IMAGE SLOTS
+function updateSlots(){
+  for(let i=0;i<2;i++){
+    const slot=document.getElementById("slot"+(i+1));
+    slot.innerHTML='<button type="button" class="remove-btn" onclick="removeImage('+i+')">×</button>';
+    if(uploadedImages[i]){
+      const img=document.createElement("img");
+      img.src=uploadedImages[i];
+      slot.appendChild(img);
+      slot.classList.add("has-image");
+      slot.style.color="transparent";
+    } else {
+      slot.classList.remove("has-image");
+      slot.style.color="inherit";
+      slot.innerHTML = 'Image Slot '+(i+1)+'<button type="button" class="remove-btn" onclick="removeImage('+i+')">×</button>';
+    }
+  }
+}
+
+// REMOVE IMAGE
+function removeImage(index){
+  uploadedImages.splice(index,1);
+  updateSlots();
+}
+
+// SUBMIT FOUND ITEM
+function submitFoundItem(event){
+  event.preventDefault();
+  if(uploadedImages.length>2){ alert("Maximum 2 images allowed"); return; }
+
+  const item = {
+    name: document.getElementById("item-name").value,
+    description: document.getElementById("description").value,
+    location: document.getElementById("location-found").value,
+    date: document.getElementById("date-found").value,
+    contact: document.getElementById("contact").value,
+    images: uploadedImages
+  };
+
+  const data = getData("foundItems");
+  data.unshift(item);
+  saveData("foundItems",data);
+
+  displayItems();
+
+  document.getElementById("found-form").reset();
+  uploadedImages=[];
+  updateSlots();
+}
+
+// DISPLAY ITEMS
+function displayItems(){
+  const data = getData("foundItems");
+  const container = document.getElementById("posted-items");
+  container.innerHTML="";
+  data.forEach(item=>{
+    const div=document.createElement("div");
+    div.className="posted-item";
+
+    let imagesHTML='<div class="images-row">';
+    item.images.forEach(img=>{
+      imagesHTML+=`<img src="${img}" />`;
+    });
+    imagesHTML+='</div>';
+
+    div.innerHTML=`
+      <h3>${item.name}</h3>
+      <p><strong>Description:</strong> ${item.description}</p>
+      <p><strong>Location:</strong> ${item.location}</p>
+      <p><strong>Date:</strong> ${item.date}</p>
+      <p><strong>Contact:</strong> ${item.contact}</p>
+      ${imagesHTML}
+    `;
+    container.appendChild(div);
+  });
+}
+
+// LOCAL STORAGE HELPERS
+function getData(key){ return JSON.parse(localStorage.getItem(key))||[]; }
+function saveData(key,data){ localStorage.setItem(key,JSON.stringify(data)); }
+
+// CLEAR ALL FOUND ITEMS
+function clearAllFoundItems() {
+  if(confirm("Are you sure you want to delete all found items?")) {
+    localStorage.removeItem("foundItems");
+    displayItems();
+  }
+}
+
+// LOAD ON PAGE LOAD
+window.onload = displayItems;
+</script>
+</body>
 </html>
