@@ -1,0 +1,293 @@
+// ==========================
+// Helper functions
+// ==========================
+function getData(key) {
+  return JSON.parse(localStorage.getItem(key)) || [];
+}
+
+function saveData(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+// ==========================
+// Lost Items Handling
+// ==========================
+let lostImages = [];
+const lostForm = document.getElementById("lost-form");
+if (lostForm) {
+  const lostInput = document.getElementById("item-images");
+  const lostSlots = [document.getElementById("slot1"), document.getElementById("slot2")];
+
+  lostInput.addEventListener("change", function (e) {
+    const files = Array.from(e.target.files);
+    if (files.length + lostImages.length > 2) { alert("Maximum 2 images allowed"); return; }
+
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        lostImages.push(reader.result);
+        updateLostSlots();
+      };
+      reader.readAsDataURL(file);
+    });
+    e.target.value = "";
+  });
+
+  function updateLostSlots() {
+    lostSlots.forEach((slot, i) => {
+      slot.innerHTML = `<button type="button" class="remove-btn" onclick="removeLostImage(${i})">×</button>`;
+      if (lostImages[i]) {
+        const img = document.createElement("img");
+        img.src = lostImages[i];
+        slot.appendChild(img);
+        slot.classList.add("has-image");
+        slot.style.color = "transparent";
+      } else {
+        slot.classList.remove("has-image");
+        slot.style.color = "inherit";
+        slot.innerHTML = `Image Slot ${i + 1}<button type="button" class="remove-btn" onclick="removeLostImage(${i})">×</button>`;
+      }
+    });
+  }
+
+  window.removeLostImage = function (index) {
+    lostImages.splice(index, 1);
+    updateLostSlots();
+  };
+
+  lostForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const item = {
+      name: document.getElementById("item-name").value,
+      description: document.getElementById("description").value,
+      location: document.getElementById("location-lost").value,
+      date: document.getElementById("date-lost").value,
+      contact: document.getElementById("contact").value,
+      images: lostImages
+    };
+
+    const data = getData("lostItems");
+    data.unshift(item);
+    saveData("lostItems", data);
+
+    lostForm.reset();
+    lostImages = [];
+    updateLostSlots();
+    displayLostItems();
+  });
+
+  window.clearAllLostItems = function () {
+    if (confirm("Are you sure you want to delete all lost items?")) {
+      localStorage.removeItem("lostItems");
+      displayLostItems();
+    }
+  };
+
+  function displayLostItems() {
+    const container = document.getElementById("posted-items");
+    if (!container) return;
+    container.innerHTML = "";
+    getData("lostItems").forEach(item => {
+      const div = document.createElement("div");
+      div.className = "posted-item";
+
+      let imagesHTML = '<div class="images-row">';
+      item.images.forEach(img => { imagesHTML += `<img src="${img}">`; });
+      imagesHTML += '</div>';
+
+      div.innerHTML = `
+        <h3>${item.name}</h3>
+        <p><strong>Description:</strong> ${item.description}</p>
+        <p><strong>Location:</strong> ${item.location}</p>
+        <p><strong>Date:</strong> ${item.date}</p>
+        <p><strong>Contact:</strong> ${item.contact}</p>
+        ${imagesHTML}
+      `;
+      container.appendChild(div);
+    });
+  }
+}
+
+// ==========================
+// Found Items Handling
+// ==========================
+let foundImages = [];
+const foundForm = document.getElementById("found-form");
+if (foundForm) {
+  const foundInput = document.getElementById("item-images");
+  const foundSlots = [document.getElementById("slot1"), document.getElementById("slot2")];
+
+  foundInput.addEventListener("change", function (e) {
+    const files = Array.from(e.target.files);
+    if (files.length + foundImages.length > 2) { alert("Maximum 2 images allowed"); return; }
+
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        foundImages.push(reader.result);
+        updateFoundSlots();
+      };
+      reader.readAsDataURL(file);
+    });
+    e.target.value = "";
+  });
+
+  function updateFoundSlots() {
+    foundSlots.forEach((slot, i) => {
+      slot.innerHTML = `<button type="button" class="remove-btn" onclick="removeFoundImage(${i})">×</button>`;
+      if (foundImages[i]) {
+        const img = document.createElement("img");
+        img.src = foundImages[i];
+        slot.appendChild(img);
+        slot.classList.add("has-image");
+        slot.style.color = "transparent";
+      } else {
+        slot.classList.remove("has-image");
+        slot.style.color = "inherit";
+        slot.innerHTML = `Image Slot ${i + 1}<button type="button" class="remove-btn" onclick="removeFoundImage(${i})">×</button>`;
+      }
+    });
+  }
+
+  window.removeFoundImage = function (index) {
+    foundImages.splice(index, 1);
+    updateFoundSlots();
+  };
+
+  foundForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const item = {
+      name: document.getElementById("item-name").value,
+      description: document.getElementById("description").value,
+      location: document.getElementById("location-found").value,
+      date: document.getElementById("date-found").value,
+      contact: document.getElementById("contact").value,
+      images: foundImages
+    };
+
+    const data = getData("foundItems");
+    data.unshift(item);
+    saveData("foundItems", data);
+
+    foundForm.reset();
+    foundImages = [];
+    updateFoundSlots();
+    displayFoundItems();
+  });
+
+  window.clearAllFoundItems = function () {
+    if (confirm("Are you sure you want to delete all found items?")) {
+      localStorage.removeItem("foundItems");
+      displayFoundItems();
+    }
+  };
+
+  function displayFoundItems() {
+    const container = document.getElementById("posted-items");
+    if (!container) return;
+    container.innerHTML = "";
+    getData("foundItems").forEach(item => {
+      const div = document.createElement("div");
+      div.className = "posted-item";
+
+      let imagesHTML = '<div class="images-row">';
+      item.images.forEach(img => { imagesHTML += `<img src="${img}">`; });
+      imagesHTML += '</div>';
+
+      div.innerHTML = `
+        <h3>${item.name}</h3>
+        <p><strong>Description:</strong> ${item.description}</p>
+        <p><strong>Location:</strong> ${item.location}</p>
+        <p><strong>Date:</strong> ${item.date}</p>
+        <p><strong>Contact:</strong> ${item.contact}</p>
+        ${imagesHTML}
+      `;
+      container.appendChild(div);
+    });
+  }
+}
+
+// ==========================
+// Announcements Handling
+// ==========================
+let posterImage = null;
+const annForm = document.getElementById("announcement-form");
+if (annForm) {
+  const posterInput = document.getElementById("poster");
+  const posterSlot = document.getElementById("poster-slot");
+
+  posterSlot.addEventListener("click", () => posterInput.click());
+
+  posterInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      posterImage = reader.result;
+      posterSlot.innerHTML = '<button type="button" class="remove-btn" onclick="removePoster()">×</button>';
+      const img = document.createElement("img");
+      img.src = posterImage;
+      posterSlot.appendChild(img);
+      posterSlot.classList.add("has-image");
+    };
+    reader.readAsDataURL(file);
+  });
+
+  window.removePoster = function () {
+    posterImage = null;
+    posterSlot.innerHTML = 'Click to select image<button type="button" class="remove-btn" onclick="removePoster()">×</button>';
+    posterSlot.classList.remove("has-image");
+    posterInput.value = "";
+  };
+
+  annForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const announcement = {
+      title: document.getElementById("title").value,
+      description: document.getElementById("description").value,
+      date: new Date().toLocaleDateString(),
+      image: posterImage
+    };
+
+    const data = getData("announcements");
+    data.unshift(announcement);
+    saveData("announcements", data);
+
+    annForm.reset();
+    removePoster();
+    displayAnnouncements();
+  });
+
+  window.clearAllAnnouncements = function () {
+    if (confirm("Are you sure you want to delete all announcements?")) {
+      localStorage.removeItem("announcements");
+      displayAnnouncements();
+    }
+  };
+
+  function displayAnnouncements() {
+    const container = document.getElementById("announcement-list");
+    if (!container) return;
+    container.innerHTML = "";
+    getData("announcements").forEach(a => {
+      const card = document.createElement("article");
+      card.className = "announcement-card";
+      card.innerHTML = `
+        ${a.image ? `<img src="${a.image}" alt="Poster">` : ''}
+        <h3>${a.title}</h3>
+        <p>${a.description}</p>
+        <small>${a.date}</small>
+      `;
+      container.appendChild(card);
+    });
+  }
+}
+
+// ==========================
+// Unified Page Load
+// ==========================
+window.addEventListener("load", () => {
+  if (lostForm) displayLostItems();
+  if (foundForm) displayFoundItems();
+  if (annForm) displayAnnouncements();
+});
