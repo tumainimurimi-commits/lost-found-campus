@@ -1,72 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Campus Announcements | Lost & Found Campus</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Announcements | Lost & Found</title>
 
-  <body>
-    <!-- DISCLAIMER -->
-    <div class="disclaimer">
-      <span>
-        ⚠️ WARNING: DO NOT POST UNETHICAL, FALSE, OR MISLEADING CONTENT. ALL
-        ANNOUNCEMENTS ARE PUBLIC. ABUSE MAY LEAD TO ACCOUNT RESTRICTIONS. ⚠️
-      </span>
+<style>
+/* GLOBAL */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f6f8;
+}
+
+/* TOP-MOST MOVING DISCLAIMER */
+.disclaimer-marquee {
+  background-color: rgb(145, 27, 27);
+  color: white;
+  font-weight: bolder;
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.disclaimer-marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: move-text 15s linear infinite;
+}
+
+@keyframes move-text {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* HEADER */
+header {
+  background-color: navy;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+header h1 { margin: 0; font-size: 28px; }
+header p { margin-top: 5px; font-size: 16px; }
+
+/* NAVIGATION */
+nav {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  background-color: navy;
+  padding: 10px 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 5px;
+  background-color: green;
+  transition: 0.3s;
+}
+
+nav a:hover { background-color: #006400; }
+
+/* MAIN CONTAINER */
+main {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 0 15px;
+}
+
+/* ANNOUNCEMENT FORM */
+.announcement-form {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.announcement-form label { display: block; margin-top: 12px; font-weight: bold; }
+
+.announcement-form input,
+.announcement-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.announcement-form button {
+  margin-top: 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.announcement-form button:hover { background-color: #006400; }
+
+/* IMAGE SLOT */
+.image-slot {
+  width: 100%;
+  min-height: 120px;
+  border: 2px dashed green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.image-slot img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  display: none;
+}
+
+.image-slot.has-image .remove-btn { display: block; }
+
+/* ANNOUNCEMENT CARD */
+.announcement-card {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.announcement-card img {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.announcement-card h3 { margin: 0 0 10px 0; color: navy; }
+.announcement-card p { margin: 0; color: #555; }
+.announcement-card small { color: #888; }
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  header h1 { font-size: 22px; }
+  header p { font-size: 14px; }
+}
+</style>
+</head>
+
+<body onload="displayAnnouncements()">
+
+<div class="disclaimer-marquee">
+  <span>⚠ ALL ANNOUNCEMENTS ARE FOR INFORMATION PURPOSES ONLY ⚠</span>
+</div>
+
+<header>
+  <h1>Campus Announcements</h1>
+  <p>Official and community notices</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="lost.html">Post Lost Item</a>
+  <a href="found.html">Post Found Item</a>
+</nav>
+
+<main>
+
+<!-- ANNOUNCEMENT FORM -->
+<article class="announcement-form">
+  <form id="announcement-form" onsubmit="submitAnnouncement(event)">
+    <label for="title">Title</label>
+    <input id="title" placeholder="Title" required>
+
+    <label for="description">Description</label>
+    <textarea id="description" placeholder="Short description" required></textarea>
+
+    <label>Poster</label>
+    <div class="image-slot" id="poster-slot">
+      Click to select image
+      <button type="button" class="remove-btn" onclick="removePoster()">×</button>
     </div>
+    <input type="file" id="poster" accept="image/*" style="display:none;">
 
-    <!-- HEADER -->
-    <header>
-      <h1>Campus Announcements</h1>
-      <p>Official & community announcements around Kirinyaga University</p>
-    </header>
+    <button type="submit">Post Announcement</button>
 
-    <!-- NAVIGATION -->
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="lost.html">Lost Items</a>
-      <a href="found.html">Found Items</a>
-    </nav>
+    <button type="button" onclick="clearAllAnnouncements()" style="margin-top:10px;background:red;color:white;padding:10px;border:none;border-radius:5px;cursor:pointer;">
+      Clear All Announcements
+    </button>
+  </form>
+</article>
 
-    <!-- ANNOUNCEMENTS LIST -->
-    <div class="announcements">
-      <!-- ANNOUNCEMENT 1 -->
-      <div class="announcement-card">
-        <h2>Library Closure Notice</h2>
-        <div class="announcement-meta">
-          Posted on: 12 Jan 2026 | Contact: Library Office
-        </div>
+<!-- ANNOUNCEMENT LIST -->
+<div id="announcement-list"></div>
 
-        <div class="announcement-description">
-          The main library will be closed today from 6:00 PM due to maintenance.
-          Students are advised to plan accordingly.
-        </div>
+<script>
+let posterImage = null;
 
-        <div class="announcement-images">
-          <img src="poster1.jpg" alt="Library notice poster" />
-          <img src="poster2.jpg" alt="Maintenance notice" />
-        </div>
-      </div>
+// CLICK IMAGE SLOT TO SELECT FILE
+document.getElementById("poster-slot").addEventListener("click", ()=>{
+  document.getElementById("poster").click();
+});
 
-      <!-- ANNOUNCEMENT 2 -->
-      <div class="announcement-card">
-        <h2>Hostel Water Interruption</h2>
-        <div class="announcement-meta">
-          Posted on: 11 Jan 2026 | Contact: Hostel Management
-        </div>
+// IMAGE PREVIEW
+document.getElementById("poster").addEventListener("change", function() {
+  const file = this.files[0];
+  const slot = document.getElementById("poster-slot");
+  if(file){
+    const reader = new FileReader();
+    reader.onload = () => {
+      posterImage = reader.result;
+      slot.innerHTML = '<button type="button" class="remove-btn" onclick="removePoster()">×</button>';
+      const img = document.createElement("img");
+      img.src = posterImage;
+      slot.appendChild(img);
+      slot.classList.add("has-image");
+    };
+    reader.readAsDataURL(file);
+  }
+});
 
-        <div class="announcement-description">
-          Water supply will be interrupted tomorrow morning due to pipeline
-          repairs. Normal services will resume by evening.
-        </div>
+// REMOVE POSTER IMAGE
+function removePoster(){
+  posterImage = null;
+  const slot = document.getElementById("poster-slot");
+  slot.innerHTML = 'Click to select image<button type="button" class="remove-btn" onclick="removePoster()">×</button>';
+  slot.classList.remove("has-image");
+  document.getElementById("poster").value = "";
+}
 
-        <div class="announcement-images">
-          <img src="water1.jpg" alt="Water repair poster" />
-        </div>
-      </div>
+// STORAGE HELPERS
+function getData(key){ return JSON.parse(localStorage.getItem(key)) || []; }
+function saveData(key,data){ localStorage.setItem(key,JSON.stringify(data)); }
 
-      <!-- MORE ANNOUNCEMENTS CONTINUE VERTICALLY -->
-    </div>
-  </body>
+// SUBMIT ANNOUNCEMENT
+function submitAnnouncement(event){
+  event.preventDefault();
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+
+  const announcement = {
+    title,
+    description,
+    image: posterImage,
+    date: new Date().toLocaleDateString()
+  };
+
+  const data = getData("announcements");
+  data.unshift(announcement);
+  saveData("announcements", data);
+  displayAnnouncements();
+
+  // Reset form
+  document.getElementById("announcement-form").reset();
+  removePoster();
+}
+
+// DISPLAY ANNOUNCEMENTS
+function displayAnnouncements(){
+  const data = getData("announcements");
+  const container = document.getElementById("announcement-list");
+  container.innerHTML = "";
+  data.forEach(a=>{
+    const card = document.createElement("article");
+    card.className = "announcement-card";
+    card.innerHTML = `
+      ${a.image ? `<img src="${a.image}" alt="Poster">` : ''}
+      <h3>${a.title}</h3>
+      <p>${a.description}</p>
+      <small>${a.date}</small>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// CLEAR ALL ANNOUNCEMENTS
+function clearAllAnnouncements(){
+  if(confirm("Are you sure you want to delete all announcements?")){
+    localStorage.removeItem("announcements");
+    displayAnnouncements();
+  }
+}
+</script>
+
+</body>
 </html>
