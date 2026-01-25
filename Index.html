@@ -1,98 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lost & Found Campus</title>
-    <link rel="stylesheet" href="style.css" />
-   
-  </head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lost & Found Campus | Kirinyaga University</title>
 
-  <body>
-    <!-- MOVING PRIVACY NOTICE -->
-    <div class="privacy-marquee">
-      <marquee>
-        CONTACT DETAILS SHARED ON THIS PLATFORM ARE USED STRICTLY FOR ITEM
-        RECOVERY PURPOSES ONLY
-      </marquee>
-    </div>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f5f5f5;
+}
 
-    <!-- DISCLAIMER -->
-    <div class="disclaimer">
-      ⚠️ THIS PLATFORM ONLY HELPS CONNECT USERS. VERIFICATION AND RECOVERY
-      RESPONSIBILITY LIES WITH INDIVIDUALS.
-    </div>
+.privacy-marquee {
+  background-color: rgb(168, 38, 38);
+  color: white;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 10px 0;
+}
 
-    <!-- HEADER -->
-    <header>
-      <h1>Lost & Found Campus Items- Kirinyaga University</h1>
-      <p>
-        Connecting students to lost items and campus announcements with trust.
-      </p>
-    </header>
+.privacy-marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: move-text 15s linear infinite;
+}
 
-    <!-- NAVIGATION -->
-    <nav>
-      <button onclick="location.href='lost.html'">Post Lost Item</button>
-      <button onclick="location.href='found.html'">Post Found Item</button>
-      <button onclick="location.href='announcement.html'">
-        View Announcements
-      </button>
-    </nav>
+@keyframes move-text {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
 
-    <!-- MAIN CONTENT -->
-    <main>
-      <!-- LATEST LOST ITEMS -->
-      <section>
-        <h2>Latest Lost Items</h2>
+header {
+  background-color: navy;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
 
-        <div class="card">
-          <div class="image-row">
-            <img src="placeholder1.png" alt="Lost Item Image" />
-            <img src="placeholder2.png" alt="Lost Item Image" />
-            <img src="placeholder3.png" alt="lLost Item Image" />
-          </div>
-          <p><strong>Wallet</strong> – Lost near KUTUS Library</p>
-          <p><em>Posted: 12 Jan 2026</em></p>
-        </div>
-      </section>
+.disclaimer {
+  background-color: rgb(214, 29, 29);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+}
 
-      <!-- LATEST FOUND ITEMS -->
-      <section>
-        <h2>Latest Found Items</h2>
+nav {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  background-color: navy;
+  padding: 10px 20px;
+}
 
-        <div class="card">
-          <div class="image-row">
-            <img src="placeholder1.png" alt="Found Item Image" />
-            <img src="placeholder2.png" alt="Found Item Image" />
-            <img src="placeholder3.png" alt="Found Item image" />
-          </div>
-          <p><strong>Notebook</strong> – Found at Lecture Hall 1</p>
-          <p><em>Posted: 12 Jan 2026</em></p>
-        </div>
-      </section>
+nav a {
+  text-decoration: none;
+  color: white;
+  background-color: green;
+  margin: 5px 10px 5px 0;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
 
-      <!-- ANNOUNCEMENTS -->
-      <section>
-        <h2>Latest Announcements</h2>
+main {
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+}
 
-        <div class="announcement">
-          <img src="announcement.png" alt="Announcement Image" />
-          <p>Library closes at 6 PM today</p>
-          <em>12 Jan 2026</em>
-        </div>
+.card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}
 
-        <div class="announcement">
-          <p>Hostel water maintenance scheduled tomorrow</p>
-          <em>11 Jan 2026</em>
-        </div>
-      </section>
-    </main>
+.card h3 {
+  margin-top: 0;
+  color: navy;
+}
 
-    <!-- FOOTER -->
-    <footer>
-      <p>&copy; 2026 Lost & Found Campus Items | Kirinyaga University</p>
-    </footer>
-  </body>
+.card p {
+  margin: 5px 0;
+}
+
+.card small {
+  color: #555;
+}
+
+.image-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.image-row img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+footer {
+  background-color: navy;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+@media(max-width: 480px){
+  nav {
+    justify-content: center;
+  }
+  .image-row img {
+    width: 90px;
+    height: 90px;
+  }
+}
+</style>
+</head>
+
+<body onload="loadHome()">
+
+<div class="privacy-marquee">
+  <span>⚠ WARNING: CONTACT DETAILS POSTED HERE ARE STRICTLY FOR ITEM RECOVERY PURPOSES ⚠</span>
+</div>
+
+<header>
+  <h1>Lost & Found Campus Items</h1>
+  <p>Kirinyaga University – Recover lost items</p>
+</header>
+
+<div class="disclaimer">
+  ⚠ THIS PLATFORM IS FOR CAMPUS ANNOUNCEMENTS AND LOST & FOUND ITEMS ONLY. USERS ARE RESPONSIBLE FOR THEIR POSTS; THE SITE IS NOT LIABLE FOR ANY LOSSES OR DISPUTES ⚠
+</div>
+
+<nav>
+  <a href="lost.html">Post Lost Item</a>
+  <a href="found.html">Post Found Item</a>
+  <a href="announcement.html">Announcements</a>
+</nav>
+
+<main>
+  <h2>LOST ITEMS</h2>
+  <div id="lost-list"></div>
+
+  <h2>FOUND ITEMS</h2>
+  <div id="found-list"></div>
+
+  <h2>ANNOUNCEMENTS</h2>
+  <div id="announcement-list"></div>
+</main>
+
+<footer>
+<p>&copy; 2026 Lost & Found Campus Items</p>
+</footer>
+
+<script>
+// ==========================
+// Helper Functions
+// ==========================
+function getData(key){ return JSON.parse(localStorage.getItem(key))||[]; }
+
+// ==========================
+// Display Items on Homepage
+// ==========================
+function loadHome(){
+  displayItems("lostItems","lost-list");
+  displayItems("foundItems","found-list");
+  displayAnnouncements("announcement-list");
+}
+
+function displayItems(key, containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  container.innerHTML = "";
+
+  getData(key).forEach(item=>{
+    const card = document.createElement("div");
+    card.className = "card";
+
+    let imagesHTML = "";
+    if(item.images && item.images.length > 0){
+      imagesHTML = `<div class="image-row">${item.images.map(img=>`<img src="${img}">`).join("")}</div>`;
+    }
+
+    card.innerHTML = `
+      <h3>${item.name}</h3>
+      <p><strong>Description:</strong> ${item.description}</p>
+      <p><strong>Location:</strong> ${item.location}</p>
+      <p><strong>Date:</strong> ${item.date}</p>
+      <p><strong>Contact:</strong> ${item.contact}</p>
+      ${imagesHTML}
+    `;
+    container.appendChild(card);
+  });
+}
+
+// ==========================
+// Display Announcements
+// ==========================
+function displayAnnouncements(containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  container.innerHTML = "";
+
+  getData("announcements").forEach(ann=>{
+    const card = document.createElement("div");
+    card.className = "card";
+
+    let imgHTML = ann.image ? `<div class="image-row"><img src="${ann.image}"></div>` : "";
+
+    card.innerHTML = `
+      <h3>${ann.title}</h3>
+      <p>${ann.description}</p>
+      ${imgHTML}
+      <small>${ann.date}</small>
+    `;
+    container.appendChild(card);
+  });
+}
+</script>
+
+</body>
 </html>
-
